@@ -1,0 +1,9 @@
+#!/bin/bash
+# Taken from https://www.reddit.com/r/i3wm/comments/kxt2yj/move_window_to_container_using_the_mouse/
+
+i3-msg mark WindowToMove
+i3-msg [id=$(xwininfo | grep --perl-regexp --only-matching '(?<=Window id: )0x[[:alnum:]]*')] mark TargetWindow
+i3-msg move window to mark TargetWindow
+i3-msg [con_mark="WindowToMove"] focus
+i3-msg unmark WindowToMove
+i3-msg unmark TargetWindow
