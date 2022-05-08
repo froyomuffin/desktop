@@ -1,9 +1,12 @@
 # Global mod key
 set $mod Mod4
 
-# Set up xob
+# Set up xob bars
 set $XOBSERVICE $HOME/.config/xob/service
 exec_always --no-startup-id $XOBSERVICE run
+
+# Set up Dunst for Notifications
+exec_always --no-startup-id $HOME/.config/dunst/service
 
 font monospace 8
 

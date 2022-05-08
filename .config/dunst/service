@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Kill existing running sessions
+pkill dunst
+
+# Start a new one
+dunst & disown
