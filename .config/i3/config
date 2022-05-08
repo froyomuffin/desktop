@@ -138,8 +138,8 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # Screenshots
-# bindsym $mod+p exec grim - | wl-copy
-# bindsym $mod+Ctrl+Shift+p exec grim -g "$(slurp)" - | wl-copy
+bindsym $mod+Shift+p exec maim -u | xclip -selection clipboard -t image/png -i
+bindsym $mod+Ctrl+Shift+p exec maim -su | xclip -selection clipboard -t image/png -i
 
 # Videos
 # bindsym $mod+Ctrl+Shift+v exec wf-recorder -g "$(slurp)" -f ~/recordings/"recording-$(date +'%H%M%S-%d%m%Y').mp4"
