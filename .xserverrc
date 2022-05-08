@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ -z "$XDG_VTNR" ]; then
+  exec /usr/bin/X -nolisten tcp -ardelay 300 -arinterval 50 "$@"
+else
+  exec /usr/bin/X -nolisten tcp -ardelay 300 -arinterval 50 "$@" vt$XDG_VTNR
+fi

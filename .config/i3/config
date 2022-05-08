@@ -2,10 +2,8 @@
 set $mod Mod4
 
 # Set up xob
-set $XOBSOCK $XDG_RUNTIME_DIR/xob.sock
-exec --no-startup-id mkfifo $XOBSOCK && tail -f $XOBSOCK | xob
-
-exec --no-startup-id systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+set $XOBSERVICE $HOME/.config/xob/service
+exec_always --no-startup-id $XOBSERVICE run
 
 font monospace 8
 
@@ -58,7 +56,9 @@ bindsym $mod+q kill
 # floating_modifier $mod
 
 # Mouse swapping windows
-bindsym --release $mod+Mod1+button1 exec --no-startup-id "$HOME/.config/i3/i3-move-window"
+# bindsym --release $mod+Mod1+button1 exec --no-startup-id "$HOME/.config/i3/i3-move-window"
+bindsym --whole-window $mod+Mod1+button1 mark --add quickswap
+bindsym --whole-window $mod+button1 swap container with mark quickswap; [con_mark="quickswap"] focus; mark --remove quickswap
 
 # Restart i3
 bindsym $mod+Shift+c restart
@@ -126,9 +126,9 @@ exec_always --no-startup-id autotiling
 bindsym Ctrl+Shift+S exec systemctl suspend
 
 # Bind media keys
-bindsym XF86AudioMute exec pulseaudio-ctl mute && pulseaudio-ctl status | grep "muted.*yes" && echo 0 > $XOBSOCK || pulseaudio-ctl current | sed 's/%//g' > $XOBSOCK
-bindsym XF86AudioRaiseVolume exec pulseaudio-ctl up && pulseaudio-ctl current | sed 's/%//g' > $XOBSOCK && pulseaudio-ctl status | grep "muted.*yes" && pulseaudio-ctl mute
-bindsym XF86AudioLowerVolume exec pulseaudio-ctl down && pulseaudio-ctl current | sed 's/%//g' > $XOBSOCK && pulseaudio-ctl status | grep "muted.*yes" && pulseaudio-ctl mute
+bindsym XF86AudioMute exec pulseaudio-ctl mute && pulseaudio-ctl status | grep "muted.*yes" && $XOBSERVICE update 0 || $XOBSERVICE update $(pulseaudio-ctl current)
+bindsym XF86AudioRaiseVolume exec pulseaudio-ctl up && $XOBSERVICE update $(pulseaudio-ctl current) && pulseaudio-ctl status | grep "muted.*yes" && pulseaudio-ctl mute
+bindsym XF86AudioLowerVolume exec pulseaudio-ctl down && $XOBSERVICE update $(pulseaudio-ctl current) && pulseaudio-ctl status | grep "muted.*yes" && pulseaudio-ctl mute
 
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
@@ -148,9 +148,8 @@ bindsym XF86AudioPrev exec playerctl previous
 # Automount disk
 exec --no-startup-id /usr/bin/udiskie
 
-## Patches
-# Bug in polkit where tty client will fail
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+# Increase Keyboard Responsiveness
+exec_always --no-startup-id exec xset r rate 300 50
 
 # Adjust fan
 # Quiet mode
@@ -164,3 +163,7 @@ bindsym $mod+N exec brightc 35 && notify-send "Setting display to low mode"
 
 # High brightness
 bindsym $mod+Shift+N exec brightc 85 && notify-send "Setting display to bright mode"
+
+## Patches
+# Bug in polkit where tty client will fail
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
