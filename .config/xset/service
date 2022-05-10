@@ -1,0 +1,6 @@
+#!/bin/bash
+
+BASEDIR=$(dirname "$0")
+
+pkill xset-maintainer
+$BASEDIR/xset-maintainer & disown

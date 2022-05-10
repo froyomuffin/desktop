@@ -44,7 +44,7 @@ set $term kitty
 set $browser chrome
 
 # Launcher
-bindsym $mod+space exec "rofi -modi drun,run -show drun"
+bindsym $mod+space exec "rofi -modi drun,run,combi -show run"
 
 # Start a terminal
 bindsym $mod+Return exec $term
@@ -151,8 +151,8 @@ bindsym $mod+Ctrl+Shift+p exec maim -su | xclip -selection clipboard -t image/pn
 # Automount disk
 exec --no-startup-id /usr/bin/udiskie
 
-# Increase Keyboard Responsiveness
-exec_always --no-startup-id exec xset r rate 300 50
+# Increase Keyboard Responsiveness Due to <reasons>, I have a mini service here to maintain the values
+exec_always --no-startup-id $HOME/.config/xset/service
 
 # Adjust fan
 # Quiet mode
