@@ -11,16 +11,16 @@ exec_always --no-startup-id $HOME/.config/dunst/service
 font monospace 8
 
 # Background
-exec_always --no-startup-id feh --bg-scale ~/wallpaper/W_2016_361_DARKWING.png
+exec_always --no-startup-id feh --bg-scale $HOME/wallpaper/forest3.jpg
 
 # Switch to vertical or horizontal split
 bindsym $mod+backslash splith
 bindsym $mod+minus splitv
 
 # Switch the current container between different layout styles
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+Shift+s layout stacking
+bindsym $mod+Shift+w layout tabbed
+bindsym $mod+Shift+e layout toggle split
 
 # Make the current focus fullscreen
 bindsym $mod+f fullscreen
@@ -45,6 +45,7 @@ set $browser chrome
 
 # Launcher
 bindsym $mod+space exec "rofi -modi drun,run,combi -show run"
+bindsym $mod+Mod1+space exec "rofi -modi drun,run,combi -show drun"
 
 # Start a terminal
 bindsym $mod+Return exec $term
@@ -62,6 +63,9 @@ bindsym $mod+q kill
 # bindsym --release $mod+Mod1+button1 exec --no-startup-id "$HOME/.config/i3/i3-move-window"
 bindsym --whole-window $mod+Mod1+button1 mark --add quickswap
 bindsym --whole-window $mod+button1 swap container with mark quickswap; [con_mark="quickswap"] focus; mark --remove quickswap
+
+# Hide cursor at times
+exec_always --no-startup-id unclutter
 
 # Restart i3
 bindsym $mod+Shift+c restart
@@ -129,17 +133,17 @@ exec_always --no-startup-id autotiling
 bindsym Ctrl+Shift+S exec systemctl suspend
 
 # Bind media keys
-bindsym XF86AudioMute exec pulseaudio-ctl mute && pulseaudio-ctl status | grep "muted.*yes" && $XOBSERVICE update 0 || $XOBSERVICE update $(pulseaudio-ctl current)
-bindsym XF86AudioRaiseVolume exec pulseaudio-ctl up && $XOBSERVICE update $(pulseaudio-ctl current) && pulseaudio-ctl status | grep "muted.*yes" && pulseaudio-ctl mute
-bindsym XF86AudioLowerVolume exec pulseaudio-ctl down && $XOBSERVICE update $(pulseaudio-ctl current) && pulseaudio-ctl status | grep "muted.*yes" && pulseaudio-ctl mute
+bindsym XF86AudioMute exec --no-startup-id pulseaudio-ctl mute && pulseaudio-ctl status | grep "muted.*yes" && $XOBSERVICE update 0 || $XOBSERVICE update $(pulseaudio-ctl current)
+bindsym XF86AudioRaiseVolume exec --no-startup-id pulseaudio-ctl up && $XOBSERVICE update $(pulseaudio-ctl current) && pulseaudio-ctl status | grep "muted.*yes" && pulseaudio-ctl mute
+bindsym XF86AudioLowerVolume exec --no-startup-id pulseaudio-ctl down && $XOBSERVICE update $(pulseaudio-ctl current) && pulseaudio-ctl status | grep "muted.*yes" && pulseaudio-ctl mute
 
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
 # Screenshots
-bindsym $mod+Shift+p exec maim -u | xclip -selection clipboard -t image/png -i
-bindsym $mod+Ctrl+Shift+p exec maim -su | xclip -selection clipboard -t image/png -i
+bindsym $mod+Shift+p exec --no-startup-id maim -u | xclip -selection clipboard -t image/png -i
+bindsym $mod+Ctrl+Shift+p exec --no-startup-id maim -su | xclip -selection clipboard -t image/png -i
 
 # Videos
 # bindsym $mod+Ctrl+Shift+v exec wf-recorder -g "$(slurp)" -f ~/recordings/"recording-$(date +'%H%M%S-%d%m%Y').mp4"
@@ -156,17 +160,28 @@ exec_always --no-startup-id $HOME/.config/xset/service
 
 # Adjust fan
 # Quiet mode
-bindsym $mod+B exec fanc 35 && notify-send "Setting fans to quiet mode"
+bindsym $mod+B exec --no-startup-id fanc 35 && notify-send "Setting fans to quiet mode"
 # Performance mode
-bindsym $mod+Shift+B exec fanc 45 && notify-send "Setting fans to performance mode"
+bindsym $mod+Shift+B exec --no-startup-id fanc 45 && notify-send "Setting fans to performance mode"
 
 # Adjust brightness
 # Low brightness
-bindsym $mod+N exec brightc 35 && notify-send "Setting display to low mode"
+bindsym $mod+N exec --no-startup-id brightc 35 && notify-send "Setting display to low mode"
 
 # High brightness
-bindsym $mod+Shift+N exec brightc 85 && notify-send "Setting display to bright mode"
+bindsym $mod+Shift+N exec --no-startup-id brightc 85 && notify-send "Setting display to bright mode"
+
+# Brightness adjustment
+bindsym $mod+bracketright exec --no-startup-id brightc up
+bindsym $mod+bracketleft exec --no-startup-id brightc down
 
 ## Patches
 # Bug in polkit where tty client will fail
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# Disable borders
+for_window [class=".*"] border pixel 0
+hide_edge_borders both
+
+# Containerized fullscreen
+bindsym --release $mod+Shift+f exec --no-startup-id xdotool key f && xdotool key Super_L+f
