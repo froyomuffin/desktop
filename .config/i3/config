@@ -5,6 +5,9 @@ set $mod Mod4
 set $XOBSERVICE $HOME/.config/xob/service
 exec_always --no-startup-id $XOBSERVICE run
 
+# Set audio pop sound
+set $POPFILE $HOME/.config/i3/pop.mp3
+
 # Set up Dunst for Notifications
 exec_always --no-startup-id $HOME/.config/dunst/service
 
@@ -21,6 +24,9 @@ bindsym $mod+minus splitv
 bindsym $mod+Shift+s layout stacking
 bindsym $mod+Shift+w layout tabbed
 bindsym $mod+Shift+e layout toggle split
+
+# Reload past layouts
+bindsym $mod+L exec --no-startup-id "layout-control load 1 1"
 
 # Make the current focus fullscreen
 bindsym $mod+f fullscreen
@@ -55,6 +61,7 @@ bindsym $mod+BackSpace exec $browser
 
 # Kill focused window
 bindsym $mod+q kill
+bindsym $mod+Shift+q kill
 
 # Dragging floating windows
 # floating_modifier $mod
@@ -133,9 +140,9 @@ exec_always --no-startup-id autotiling
 bindsym Ctrl+Shift+S exec systemctl suspend
 
 # Bind media keys
-bindsym XF86AudioMute exec --no-startup-id pulseaudio-ctl mute && pulseaudio-ctl status | grep "muted.*yes" && $XOBSERVICE update 0 || $XOBSERVICE update $(pulseaudio-ctl current)
-bindsym XF86AudioRaiseVolume exec --no-startup-id pulseaudio-ctl up && $XOBSERVICE update $(pulseaudio-ctl current) && pulseaudio-ctl status | grep "muted.*yes" && pulseaudio-ctl mute
-bindsym XF86AudioLowerVolume exec --no-startup-id pulseaudio-ctl down && $XOBSERVICE update $(pulseaudio-ctl current) && pulseaudio-ctl status | grep "muted.*yes" && pulseaudio-ctl mute
+bindsym XF86AudioMute exec --no-startup-id volume-control toggle-mute && volume-control muted | grep 'yes' && $XOBSERVICE update 0 || $XOBSERVICE update $(volume-control volume)
+bindsym XF86AudioRaiseVolume exec --no-startup-id volume-control up && $XOBSERVICE update $(volume-control volume)
+bindsym XF86AudioLowerVolume exec --no-startup-id volume-control down && $XOBSERVICE update $(volume-control volume) 
 
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
@@ -185,3 +192,8 @@ hide_edge_borders both
 
 # Containerized fullscreen
 bindsym --release $mod+Shift+f exec --no-startup-id xdotool key f && xdotool key Super_L+f
+
+# Workspace specific applications
+assign [class="Steam"] 9
+assign [class="spotify"] 10
+for_window [class="Spotify"] move to workspace 10
