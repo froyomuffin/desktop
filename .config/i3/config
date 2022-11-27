@@ -26,7 +26,7 @@ bindsym $mod+Shift+w layout tabbed
 bindsym $mod+Shift+e layout toggle split
 
 # Reload past layouts
-bindsym $mod+L exec --no-startup-id "layout-control load 1 1"
+bindsym $mod+L exec --no-startup-id "layout-manager load 1 1"
 
 # Make the current focus fullscreen
 bindsym $mod+f fullscreen
@@ -54,10 +54,10 @@ bindsym $mod+space exec "rofi -modi drun,run,combi -show run"
 bindsym $mod+Mod1+space exec "rofi -modi drun,run,combi -show drun"
 
 # Start a terminal
-bindsym $mod+Return exec $term
+bindsym $mod+BackSpace exec $term
 
 # Start a browser
-bindsym $mod+BackSpace exec $browser
+bindsym $mod+Return exec $browser
 
 # Kill focused window
 bindsym $mod+q kill
@@ -197,3 +197,8 @@ bindsym --release $mod+Shift+f exec --no-startup-id xdotool key f && xdotool key
 assign [class="Steam"] 9
 assign [class="spotify"] 10
 for_window [class="Spotify"] move to workspace 10
+
+# Origin fix
+assign [title="Origin"] 9
+for_window [title="Origin"] floating enable
+for_window [instance="origin.exe"] floating enable
