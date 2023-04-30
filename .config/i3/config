@@ -1,6 +1,9 @@
 # Global mod key
 set $mod Mod4
 
+# Disable screensaver
+exec_always --no-startup-id xset s off
+
 # Set up xob bars
 set $XOBSERVICE $HOME/.config/xob/service
 exec_always --no-startup-id $XOBSERVICE run
@@ -17,7 +20,7 @@ font monospace 8
 exec_always --no-startup-id feh --bg-scale $HOME/wallpaper/forest3.jpg
 
 # Switch to vertical or horizontal split
-bindsym $mod+backslash splith
+bindsym $mod+plus splith
 bindsym $mod+minus splitv
 
 # Switch the current container between different layout styles
@@ -54,7 +57,7 @@ bindsym $mod+space exec "rofi -modi drun,run,combi -show run"
 bindsym $mod+Mod1+space exec "rofi -modi drun,run,combi -show drun"
 
 # Start a terminal
-bindsym $mod+BackSpace exec $term
+bindsym $mod+backslash exec $term
 
 # Start a browser
 bindsym $mod+Return exec $browser
@@ -102,6 +105,7 @@ bindsym $mod+7 workspace number 7
 bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace number 9
 bindsym $mod+0 workspace number 10
+bindsym $mod+Escape workspace back_and_forth 
 
 # Move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number 1
@@ -167,9 +171,9 @@ exec_always --no-startup-id $HOME/.config/xset/service
 
 # Adjust fan
 # Quiet mode
-bindsym $mod+B exec --no-startup-id fanc 35 && notify-send "Setting fans to quiet mode"
+bindsym $mod+B exec --no-startup-id sudo fan-control set_mode quiet && notify-send "Setting fans to quiet mode"
 # Performance mode
-bindsym $mod+Shift+B exec --no-startup-id fanc 45 && notify-send "Setting fans to performance mode"
+bindsym $mod+Shift+B exec --no-startup-id sudo fan-control set_mode performance && notify-send "Setting fans to performance mode"
 
 # Adjust brightness
 # Low brightness
@@ -202,3 +206,12 @@ for_window [class="Spotify"] move to workspace 10
 assign [title="Origin"] 9
 for_window [title="Origin"] floating enable
 for_window [instance="origin.exe"] floating enable
+
+# Test
+bindsym $mod+K exec --no-startup-id notify-send `whoami`
+
+# Print temps
+bindsym $mod+T exec --no-startup-id notify-send "`/bin/temps`"
+
+# Start up mouse driver
+exec --no-startup-id /bin/solaar -w hide
