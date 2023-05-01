@@ -29,7 +29,7 @@ bindsym $mod+Shift+w layout tabbed
 bindsym $mod+Shift+e layout toggle split
 
 # Reload past layouts
-bindsym $mod+L exec --no-startup-id "layout-manager load 1 1"
+bindsym $mod+L exec --no-startup-id layout-manager load `layout-manager current | sed -E 's/(.*)/\1 \1/g'`
 
 # Make the current focus fullscreen
 bindsym $mod+f fullscreen
