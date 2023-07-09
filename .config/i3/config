@@ -1,6 +1,9 @@
 # Global mod key
 set $mod Mod4
 
+# Key just for space shifting
+set $smod Mod1
+
 # Disable screensaver
 exec_always --no-startup-id xset s off
 
@@ -107,6 +110,18 @@ bindsym $mod+9 workspace number 9
 bindsym $mod+0 workspace number 10
 bindsym $mod+Escape workspace back_and_forth 
 
+bindsym $smod+Q workspace number 1
+bindsym $smod+W workspace number 2
+bindsym $smod+E workspace number 3
+bindsym $smod+R workspace number 4
+bindsym $smod+T workspace number 5
+bindsym $smod+Y workspace number 6
+bindsym $smod+U workspace number 7
+bindsym $smod+I workspace number 8
+bindsym $smod+O workspace number 9
+bindsym $smod+P workspace number 10
+bindsym $smod+Escape workspace back_and_forth 
+
 # Move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number 1
 bindsym $mod+Shift+2 move container to workspace number 2
@@ -118,6 +133,17 @@ bindsym $mod+Shift+7 move container to workspace number 7
 bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
+
+bindsym $smod+Shift+Q move container to workspace number 1
+bindsym $smod+Shift+W move container to workspace number 2
+bindsym $smod+Shift+E move container to workspace number 3
+bindsym $smod+Shift+R move container to workspace number 4
+bindsym $smod+Shift+T move container to workspace number 5
+bindsym $smod+Shift+Y move container to workspace number 6
+bindsym $smod+Shift+U move container to workspace number 7
+bindsym $smod+Shift+I move container to workspace number 8
+bindsym $smod+Shift+O move container to workspace number 9
+bindsym $smod+Shift+P move container to workspace number 10
 
 # Resizing containers:
 bindsym $mod+r mode "resize"
