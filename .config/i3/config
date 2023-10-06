@@ -47,7 +47,7 @@ bindsym $mod+Shift+d focus mode_toggle
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Compositor
-exec_always --no-startup-id $HOME/.config/picom/launch.sh
+# exec_always --no-startup-id $HOME/.config/picom/launch.sh
 
 # Default terminal
 set $term kitty
@@ -170,9 +170,9 @@ exec_always --no-startup-id autotiling
 bindsym Ctrl+Shift+S exec systemctl suspend
 
 # Bind media keys
-bindsym XF86AudioMute exec --no-startup-id volume-control toggle-mute && volume-control muted | grep 'yes' && $XOBSERVICE update 0 || $XOBSERVICE update $(volume-control volume)
-bindsym XF86AudioRaiseVolume exec --no-startup-id volume-control up && $XOBSERVICE update $(volume-control volume)
-bindsym XF86AudioLowerVolume exec --no-startup-id volume-control down && $XOBSERVICE update $(volume-control volume) 
+bindsym XF86AudioMute exec --no-startup-id volume-control toggle-mute
+bindsym XF86AudioRaiseVolume exec --no-startup-id volume-control up
+bindsym XF86AudioLowerVolume exec --no-startup-id volume-control down
 
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
@@ -224,7 +224,8 @@ hide_edge_borders both
 bindsym --release $mod+Shift+f exec --no-startup-id xdotool key f && xdotool key Super_L+f
 
 # Workspace specific applications
-assign [class="Steam"] 9
+assign [class="steam"] 9
+for_window [class="Steam"] move to workspace 9
 assign [class="spotify"] 10
 for_window [class="Spotify"] move to workspace 10
 
