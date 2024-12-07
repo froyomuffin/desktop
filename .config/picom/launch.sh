@@ -4,6 +4,6 @@
 killall -q picom
 
 # Launch picom, using default config location ~/.config/picom/picom.conf
-picom 2>&1 | tee -a /tmp/picom.log & disown
+picom --unredir-if-possible 2>&1 | tee -a /tmp/picom.log & disown
 
 echo "Picom launched..."

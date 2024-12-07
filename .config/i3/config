@@ -5,7 +5,7 @@ set $mod Mod4
 set $smod Mod1
 
 # Disable screensaver
-exec_always --no-startup-id xset s off
+exec_always --no-startup-id xset s off -dpms
 
 # Set up xob bars
 set $XOBSERVICE $HOME/.config/xob/service
@@ -20,7 +20,9 @@ exec_always --no-startup-id $HOME/.config/dunst/service
 font monospace 8
 
 # Background
-exec_always --no-startup-id feh --bg-scale $HOME/wallpaper/forest3.jpg
+# exec_always --no-startup-id feh --bg-scale $HOME/wallpaper/forest3.jpg
+# exec_always --no-startup-id feh --bg-scale $HOME/wallpaper/black.png
+exec_always --no-startup-id feh --bg-scale $HOME/wallpaper/kerbal.jpg
 
 # Switch to vertical or horizontal split
 bindsym $mod+plus splith
@@ -31,8 +33,11 @@ bindsym $mod+Shift+s layout stacking
 bindsym $mod+Shift+w layout tabbed
 bindsym $mod+Shift+e layout toggle split
 
-# Reload past layouts
+# Reload saved layouts
 bindsym $mod+L exec --no-startup-id layout-manager load `layout-manager current | sed -E 's/(.*)/\1 \1/g'`
+
+# Reload all saved layouts to their corresponding workspaces
+bindsym $mod+Shift+L exec --no-startup-id layout-manager load_all
 
 # Make the current focus fullscreen
 bindsym $mod+f fullscreen
@@ -47,10 +52,19 @@ bindsym $mod+Shift+d focus mode_toggle
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Compositor
-# exec_always --no-startup-id $HOME/.config/picom/launch.sh
+exec_always --no-startup-id $HOME/.config/picom/launch.sh
+
+# Keyboard fixer
+exec_always --no-startup-id $HOME/.config/keyboard-fixer/launch.sh
+
+# Redirect audio source
+exec_always --no-startup-id $HOME/.config/audio-switcher/launch.sh
+
+# Keep audio alive to avoid delay
+# exec_always --no-startup-id $HOME/.config/audio-keep-alive/launch.sh
 
 # Default terminal
-set $term kitty
+set $term wezterm
 
 # Default browser
 set $browser chrome
@@ -110,12 +124,24 @@ bindsym $mod+9 workspace number 9
 bindsym $mod+0 workspace number 10
 bindsym $mod+Escape workspace back_and_forth 
 
-bindsym $smod+Q workspace number 1
-bindsym $smod+W workspace number 2
-bindsym $smod+E workspace number 3
-bindsym $smod+R workspace number 4
-bindsym $smod+T workspace number 5
-bindsym $smod+Y workspace number 6
+bindsym $mod+Ctrl+q workspace number 1
+bindsym $mod+Ctrl+w workspace number 2
+bindsym $mod+Ctrl+e workspace number 3
+bindsym $mod+Ctrl+r workspace number 4
+bindsym $mod+Ctrl+t workspace number 5
+
+bindsym $mod+Ctrl+y workspace number 6
+bindsym $mod+Ctrl+u workspace number 7
+bindsym $mod+Ctrl+i workspace number 8
+bindsym $mod+Ctrl+o workspace number 9
+bindsym $mod+Ctrl+p workspace number 10
+
+bindsym $smod+M workspace number 1
+bindsym $smod+comma workspace number 2
+bindsym $smod+period workspace number 3
+bindsym $smod+J workspace number 4
+bindsym $smod+K workspace number 5
+bindsym $smod+L workspace number 6
 bindsym $smod+U workspace number 7
 bindsym $smod+I workspace number 8
 bindsym $smod+O workspace number 9
@@ -167,7 +193,7 @@ default_border none
 exec_always --no-startup-id autotiling
 
 # Suspend
-bindsym Ctrl+Shift+S exec systemctl suspend
+bindsym Ctrl+Shift+S exec --no-startup-id sleep 1 && systemctl suspend
 
 # Bind media keys
 bindsym XF86AudioMute exec --no-startup-id volume-control toggle-mute
@@ -206,7 +232,7 @@ bindsym $mod+Shift+B exec --no-startup-id sudo fan-control set_mode performance 
 bindsym $mod+N exec --no-startup-id brightc 35 && notify-send "Setting display to low mode"
 
 # High brightness
-bindsym $mod+Shift+N exec --no-startup-id brightc 85 && notify-send "Setting display to bright mode"
+bindsym $mod+Shift+N exec --no-startup-id brightc 100 && notify-send "Setting display to bright mode"
 
 # Brightness adjustment
 bindsym $mod+bracketright exec --no-startup-id brightc up
@@ -230,15 +256,28 @@ assign [class="spotify"] 10
 for_window [class="Spotify"] move to workspace 10
 
 # Origin fix
-assign [title="Origin"] 9
-for_window [title="Origin"] floating enable
-for_window [instance="origin.exe"] floating enable
+# assign [title="Origin"] 9
+# for_window [title="Origin"] floating enable
+# for_window [instance="origin.exe"] floating enable
 
 # Test
 bindsym $mod+K exec --no-startup-id notify-send `whoami`
 
-# Print temps
-bindsym $mod+T exec --no-startup-id notify-send "`/bin/temps`"
+# Print temps and gpu deets
+bindsym $mod+T exec --no-startup-id notify-send "`/bin/system-deets`"
 
 # Start up mouse driver
 exec --no-startup-id /bin/solaar -w hide
+
+# Redshift
+exec --no-startup-id /usr/bin/redshift -O 5900
+
+# Set display config
+# exec_always --no-startup-id autorandr --change
+
+# Set display brightness
+exec_always --no-startup-id ddcutil setvcp 10 100
+
+# Set dispaly switching
+bindsym Ctrl+Shift+Escape exec --no-startup-id /bin/switch-input toggle
+bindsym Ctrl+Shift+Tab exec --no-startup-id /bin/switch-input toggle
